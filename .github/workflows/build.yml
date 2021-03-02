@@ -1,0 +1,44 @@
+name: Node CI
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: [ubuntu-latest]
+    
+    steps:
+      - uses: actions/checkout@v1
+      - name: Use Node.js 10
+        uses: actions/setup-node@v1
+        with:
+          node-version: 10
+          registry-url: https://npm.pkg.github.com/
+          scope: '@unosquare'
+      - uses: actions/cache@v1
+        with:
+          path: ~/.npm
+          key: node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            node-
+      - name: npm test/build
+        run: |
+          npm ci
+          npm run prettier
+          npm run build
+        env:
+          CI: true
+          NODE_AUTH_TOKEN: ${{secrets.GPR_ACCESS_TOKEN}}      
+      - name: Percy Test
+        if: github.ref != 'refs/heads/master'
+        uses: percy/storybook-action@v0.1.1
+        continue-on-error: true
+        env:
+          PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}
+      - name: npm publish
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev'
+        run: |
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.GPR_ACCESS_TOKEN }}" > ~/.npmrc
+          npm publish || true
+        env:
+          CI: true
+          NODE_AUTH_TOKEN: ${{secrets.GPR_ACCESS_TOKEN}}

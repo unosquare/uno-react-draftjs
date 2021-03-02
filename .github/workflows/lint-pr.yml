@@ -1,0 +1,30 @@
+name: Lint PR
+
+on: [pull_request]
+
+jobs:
+  eslint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1   
+      - name: Use Node.js 10
+        uses: actions/setup-node@v1
+        with:
+          node-version: 10
+          registry-url: https://npm.pkg.github.com/
+          scope: '@unosquare'
+      - uses: actions/cache@v1
+        with:
+          path: ~/.npm
+          key: node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            node-
+      - run: npm ci
+        env:
+          CI: true
+          NODE_AUTH_TOKEN: ${{secrets.GPR_ACCESS_TOKEN}}
+      - name: Lint
+        uses: a-b-r-o-w-n/eslint-action@v1
+        with:
+          repo-token:  ${{ secrets.GITHUB_TOKEN }}
+          files: 'src/**/*'
