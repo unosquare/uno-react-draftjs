@@ -1,1 +1,1 @@
-export * from './IRichTexEditorProps';
+export * from './RichTexEditorProps';

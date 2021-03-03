@@ -1,1 +1,2 @@
-export { default as UnoReactDraftjs } from './components';
+export * from './components';
+export * from './interfaces';
