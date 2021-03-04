@@ -8,7 +8,7 @@ const Main: React.FunctionComponent<any> = () => {
     return (
         <>
             <UnoReactDraftjs markdown={markdownString} setMark={setMarkdownSting} placeholder={''} ref={draftRef} />
-            <textarea value={markdownString}></textarea>
+            <textarea value={markdownString} readOnly></textarea>
             <button
                 onClick={() => {
                     draftRef.current.updateUI(initialMarkdownString);

@@ -3,6 +3,7 @@ import { Editor, RichUtils, convertToRaw, convertFromRaw, EditorState } from 'dr
 import { draftToMarkdown, markdownToDraft } from 'markdown-draft-js';
 import { IButtonStyles, IconButton, Stack } from '@fluentui/react';
 import { RichTextEditorProps } from '../interfaces';
+import { useEffectWithDebounce } from 'uno-react';
 
 const buttonStyles: IButtonStyles = {
     icon: { color: 'grey' },
@@ -77,7 +78,6 @@ export const UnoReactDraftjs = forwardRef<RichTextEditorRef, RichTextEditorProps
         };
 
         const handleChange = (newState: EditorState) => {
-            setMark(_convertToMark(newState));
             setEditor(newState);
         };
 
@@ -85,6 +85,10 @@ export const UnoReactDraftjs = forwardRef<RichTextEditorRef, RichTextEditorProps
             setEditor(_convertFromMark(newmark));
             setMark(newmark);
         };
+        const updateMarkdownEffect = React.useCallback(() => {
+            setMark(_convertToMark(editorState));
+        }, [editorState]);
+        useEffectWithDebounce(updateMarkdownEffect, 200);
         useImperativeHandle(ref, () => ({
             updateUI: updateUI,
         }));

@@ -86,7 +86,8 @@
     "markdown-draft-js": "^2.2.1",
     "tubular-common": "^5.0.1",
     "tubular-fabric": "^3.0.1",
-    "tubular-react-common": "^3.0.1"
+    "tubular-react-common": "^3.0.1",
+    "uno-react": "^1.0.16"
   },
   "jest": {
     "moduleFileExtensions": [
