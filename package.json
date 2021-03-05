@@ -1,5 +1,5 @@
 {
-  "name": "@unosquare/uno-react-draftjs",
+  "name": "uno-react-draftjs",
   "version": "1.0.1",
   "description": "Rich text editor",
   "main": "dist/index.js",
