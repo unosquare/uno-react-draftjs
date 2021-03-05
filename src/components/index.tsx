@@ -1,4 +1,4 @@
-import React, { useState, useImperativeHandle, forwardRef } from 'react';
+import React, { useState, useImperativeHandle, forwardRef, useRef } from 'react';
 import { Editor, RichUtils } from 'draft-js';
 import { _convertFromMark, _convertToMark } from '../utils';
 import { IconButton, Stack } from '@fluentui/react';
@@ -14,11 +14,15 @@ export const UnoReactDraftjs = forwardRef<RichTextEditorRef, RichTextEditorProps
     ({ markdown, setMark, placeholder }: RichTextEditorProps, ref) => {
         const [editorState, setEditor] = useState(_convertFromMark(markdown));
         const [hidden, setHidden] = React.useState(true);
+        const editor = useRef<Editor>(null);
         const [selected, setSelected] = React.useState({
             bold: false,
             italic: false,
             underline: false,
         });
+        const focus = () => {
+            editor.current?.focus();
+        };
         const applyInlineStyle = (event: any, style: string) => {
             event.preventDefault();
             setEditor(RichUtils.toggleInlineStyle(editorState, style));
@@ -40,15 +44,12 @@ export const UnoReactDraftjs = forwardRef<RichTextEditorRef, RichTextEditorProps
         const updateMarkdownEffect = React.useCallback(() => {
             setMark(_convertToMark(editorState));
         }, [editorState]);
-        
         useEffectWithDebounce(updateMarkdownEffect, 200);
-
         useImperativeHandle(ref, () => ({
             setText: setText,
         }));
-
         return (
-            <div style={{ border: '1px solid lightgray', minHeight: '80px' }}>
+            <div onClick={focus} style={{ border: '1px solid lightgray', minHeight: '80px', cursor: 'text' }}>
                 {!hidden && (
                     <Stack
                         tokens={{ childrenGap: 8 }}
@@ -89,6 +90,7 @@ export const UnoReactDraftjs = forwardRef<RichTextEditorRef, RichTextEditorProps
                     </Stack>
                 )}
                 <Editor
+                    ref={editor}
                     onBlur={() => setHidden(true)}
                     onFocus={() => setHidden(false)}
                     editorState={editorState}
