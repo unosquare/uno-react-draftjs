@@ -21,7 +21,6 @@ export const UnoReactDraftjs = forwardRef<RichTextEditorRef, RichTextEditorProps
             underline: false,
         });
         const focus = () => {
-            console.log('D:');
             editor.current?.focus();
         };
         const applyInlineStyle = (event: any, style: string) => {
