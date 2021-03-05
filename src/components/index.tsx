@@ -40,10 +40,13 @@ export const UnoReactDraftjs = forwardRef<RichTextEditorRef, RichTextEditorProps
         const updateMarkdownEffect = React.useCallback(() => {
             setMark(_convertToMark(editorState));
         }, [editorState]);
+        
         useEffectWithDebounce(updateMarkdownEffect, 200);
+
         useImperativeHandle(ref, () => ({
             setText: setText,
         }));
+
         return (
             <div style={{ border: '1px solid lightgray', minHeight: '80px' }}>
                 {!hidden && (
