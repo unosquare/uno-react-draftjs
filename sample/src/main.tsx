@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { UnoReactDraftjs, RichTextEditorRef } from '../../../uno-react-draftjs/src/index';
+import { UnoReactDraftjs, RichTextEditorRef } from '../../src/index';
 
 const Main: React.FunctionComponent<any> = () => {
     let initialMarkdownString = localStorage.getItem('markdown');
@@ -11,7 +11,7 @@ const Main: React.FunctionComponent<any> = () => {
             <textarea value={markdownString} readOnly></textarea>
             <button
                 onClick={() => {
-                    draftRef.current.updateUI(initialMarkdownString);
+                    draftRef.current.setText(initialMarkdownString);
                 }}
             >
                 Reset

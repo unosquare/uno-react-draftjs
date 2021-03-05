@@ -1,57 +1,13 @@
 import React, { useState, useImperativeHandle, forwardRef } from 'react';
-import { Editor, RichUtils, convertToRaw, convertFromRaw, EditorState } from 'draft-js';
-import { draftToMarkdown, markdownToDraft } from 'markdown-draft-js';
-import { IButtonStyles, IconButton, Stack } from '@fluentui/react';
+import { Editor, RichUtils } from 'draft-js';
+import { _convertFromMark, _convertToMark } from '../utils';
+import { IconButton, Stack } from '@fluentui/react';
 import { RichTextEditorProps } from '../interfaces';
 import { useEffectWithDebounce } from 'uno-react';
-
-const buttonStyles: IButtonStyles = {
-    icon: { color: 'grey' },
-    root: {
-        selectors: {
-            ':hover .ms-Button-icon': {
-                color: 'grey',
-            },
-            ':active .ms-Button-icon': {
-                color: 'grey',
-            },
-        },
-    },
-};
-const toMarkdownOptions = {
-    styleItems: {
-        UNDERLINE: {
-            open: () => '++',
-            close: () => '++',
-        },
-    },
-    preserveNewlines: true,
-};
-const fromMarkdownOptions = {
-    blockStyles: {
-        ins_open: ['UNDERLINE'],
-    },
-    remarkableOptions: {
-        enable: {
-            inline: ['ins'],
-        },
-    },
-    preserveNewlines: true,
-};
-const _convertFromMark = (markdown: string) => {
-    const raw = markdownToDraft(markdown, fromMarkdownOptions);
-    const content = convertFromRaw(raw);
-    return EditorState.createWithContent(content);
-};
-const _convertToMark = (editor: EditorState) => {
-    const content = editor.getCurrentContent();
-    const raw = convertToRaw(content);
-    const mark = draftToMarkdown(raw, toMarkdownOptions);
-    return mark;
-};
+import { buttonStyles } from './styles';
 
 export type RichTextEditorRef = {
-    updateUI: (newMarkdown: string) => void;
+    setText: (newMarkdown: string) => void;
 };
 
 export const UnoReactDraftjs = forwardRef<RichTextEditorRef, RichTextEditorProps>(
@@ -65,7 +21,7 @@ export const UnoReactDraftjs = forwardRef<RichTextEditorRef, RichTextEditorProps
         });
         const applyInlineStyle = (event: any, style: string) => {
             event.preventDefault();
-            handleChange(RichUtils.toggleInlineStyle(editorState, style));
+            setEditor(RichUtils.toggleInlineStyle(editorState, style));
             setSelected({
                 ...selected,
                 [style.toLowerCase()]: !selected[style.toLowerCase()],
@@ -74,14 +30,10 @@ export const UnoReactDraftjs = forwardRef<RichTextEditorRef, RichTextEditorProps
 
         const applyBlockType = (event: any, style: string) => {
             event.preventDefault();
-            handleChange(RichUtils.toggleBlockType(editorState, style));
+            setEditor(RichUtils.toggleBlockType(editorState, style));
         };
 
-        const handleChange = (newState: EditorState) => {
-            setEditor(newState);
-        };
-
-        const updateUI = (newmark: string) => {
+        const setText = (newmark: string) => {
             setEditor(_convertFromMark(newmark));
             setMark(newmark);
         };
@@ -90,7 +42,7 @@ export const UnoReactDraftjs = forwardRef<RichTextEditorRef, RichTextEditorProps
         }, [editorState]);
         useEffectWithDebounce(updateMarkdownEffect, 200);
         useImperativeHandle(ref, () => ({
-            updateUI: updateUI,
+            setText: setText,
         }));
         return (
             <div style={{ border: '1px solid lightgray', minHeight: '80px' }}>
@@ -137,7 +89,7 @@ export const UnoReactDraftjs = forwardRef<RichTextEditorRef, RichTextEditorProps
                     onBlur={() => setHidden(true)}
                     onFocus={() => setHidden(false)}
                     editorState={editorState}
-                    onChange={handleChange}
+                    onChange={setEditor}
                     placeholder={placeholder}
                 />
             </div>
