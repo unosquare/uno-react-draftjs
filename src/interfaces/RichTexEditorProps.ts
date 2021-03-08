@@ -3,4 +3,5 @@ export interface RichTextEditorProps {
     setMark: any;
     placeholder: string;
     ref?: any;
+    readonly?: boolean;
 }

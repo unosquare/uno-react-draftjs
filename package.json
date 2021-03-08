@@ -1,6 +1,6 @@
 {
   "name": "uno-react-draftjs",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Rich text editor",
   "main": "dist/index.js",
   "scripts": {

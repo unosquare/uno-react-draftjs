@@ -11,7 +11,7 @@ export type RichTextEditorRef = {
 };
 
 export const UnoReactDraftjs = forwardRef<RichTextEditorRef, RichTextEditorProps>(
-    ({ markdown, setMark, placeholder }: RichTextEditorProps, ref) => {
+    ({ markdown, setMark, placeholder, readonly }: RichTextEditorProps, ref) => {
         const [editorState, setEditor] = useState(_convertFromMark(markdown));
         const [hidden, setHidden] = React.useState(true);
         const editor = useRef<Editor>(null);
@@ -96,6 +96,7 @@ export const UnoReactDraftjs = forwardRef<RichTextEditorRef, RichTextEditorProps
                     editorState={editorState}
                     onChange={setEditor}
                     placeholder={placeholder}
+                    readOnly={readonly}
                 />
             </div>
         );
