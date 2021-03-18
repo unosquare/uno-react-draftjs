@@ -50,7 +50,7 @@ export const UnoReactDraftjs = forwardRef<RichTextEditorRef, RichTextEditorProps
         }));
 
         return (
-            <div onClick={focus} style={{ ... containerBaseStyles, ... styles }}>
+            <div onClick={focus} style={{ ...containerBaseStyles, ...styles }}>
                 {!hidden && (
                     <Stack
                         tokens={{ childrenGap: 8 }}

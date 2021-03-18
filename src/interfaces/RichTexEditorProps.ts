@@ -1,4 +1,4 @@
-import { CSSProperties } from "react";
+import { CSSProperties } from 'react';
 
 export interface RichTextEditorProps {
     markdown: string;
@@ -6,5 +6,5 @@ export interface RichTextEditorProps {
     placeholder: string;
     ref?: any;
     readonly?: boolean;
-    styles?: Partial<CSSProperties>
+    styles?: Partial<CSSProperties>;
 }

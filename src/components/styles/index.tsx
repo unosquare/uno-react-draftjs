@@ -19,5 +19,5 @@ export const containerBaseStyles: CSSProperties = {
     border: '1px solid lightgray',
     minHeight: '80px',
     cursor: 'text',
-    padding: '5px'
+    padding: '5px',
 };
