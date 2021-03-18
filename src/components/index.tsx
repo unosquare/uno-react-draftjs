@@ -4,14 +4,14 @@ import { _convertFromMark, _convertToMark } from '../utils';
 import { IconButton, Stack } from '@fluentui/react';
 import { RichTextEditorProps } from '../interfaces';
 import { useEffectWithDebounce } from 'uno-react';
-import { buttonStyles } from './styles';
+import { buttonStyles, containerBaseStyles } from './styles';
 
 export type RichTextEditorRef = {
     setText: (newMarkdown: string) => void;
 };
 
 export const UnoReactDraftjs = forwardRef<RichTextEditorRef, RichTextEditorProps>(
-    ({ markdown, setMark, placeholder, readonly }: RichTextEditorProps, ref) => {
+    ({ markdown, setMark, placeholder, readonly, styles }: RichTextEditorProps, ref) => {
         const [editorState, setEditor] = useState(_convertFromMark(markdown));
         const [hidden, setHidden] = React.useState(true);
         const editor = useRef<Editor>(null);
@@ -48,8 +48,9 @@ export const UnoReactDraftjs = forwardRef<RichTextEditorRef, RichTextEditorProps
         useImperativeHandle(ref, () => ({
             setText: setText,
         }));
+
         return (
-            <div onClick={focus} style={{ border: '1px solid lightgray', minHeight: '80px', cursor: 'text' }}>
+            <div onClick={focus} style={{ ... containerBaseStyles, ... styles }}>
                 {!hidden && (
                     <Stack
                         tokens={{ childrenGap: 8 }}
