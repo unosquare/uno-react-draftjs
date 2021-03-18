@@ -1,4 +1,5 @@
 import { IButtonStyles } from '@fluentui/react';
+import { CSSProperties } from 'react';
 
 export const buttonStyles: IButtonStyles = {
     icon: { color: 'grey' },
@@ -12,4 +13,11 @@ export const buttonStyles: IButtonStyles = {
             },
         },
     },
+};
+
+export const containerBaseStyles: CSSProperties = {
+    border: '1px solid lightgray',
+    minHeight: '80px',
+    cursor: 'text',
+    padding: '5px',
 };

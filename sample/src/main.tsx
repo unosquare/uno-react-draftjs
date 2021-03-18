@@ -6,7 +6,7 @@ const Main: React.FunctionComponent<any> = () => {
     const [markdownString, setMarkdownSting] = useState(initialMarkdownString);
     const draftRef = useRef<RichTextEditorRef>();
     return (
-        <>
+        <div style={{ margin: '10px' }}>
             <UnoReactDraftjs markdown={markdownString} setMark={setMarkdownSting} placeholder={''} ref={draftRef} />
             <textarea value={markdownString} readOnly></textarea>
             <button
@@ -24,7 +24,7 @@ const Main: React.FunctionComponent<any> = () => {
             >
                 Save
             </button>
-        </>
+        </div>
     );
 };
 
