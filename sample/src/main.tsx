@@ -5,11 +5,13 @@ const Main: React.FunctionComponent<any> = () => {
     let initialMarkdownString = localStorage.getItem('markdown');
     const [markdownString, setMarkdownSting] = useState(initialMarkdownString);
     const draftRef = useRef<RichTextEditorRef>();
+    
     return (
         <div style={{ margin: '10px' }}>
-            <UnoReactDraftjs markdown={markdownString} setMark={setMarkdownSting} placeholder={''} ref={draftRef} />
-            <textarea value={markdownString} readOnly></textarea>
+            <UnoReactDraftjs markdown={markdownString} setMark={setMarkdownSting} placeholder='' ref={draftRef} />
+            <textarea value={markdownString} readOnly />
             <button
+                type='button'
                 onClick={() => {
                     draftRef.current.setText(initialMarkdownString);
                 }}
@@ -17,6 +19,7 @@ const Main: React.FunctionComponent<any> = () => {
                 Reset
             </button>
             <button
+                type='button'
                 onClick={() => {
                     localStorage.setItem('markdown', markdownString);
                     initialMarkdownString = markdownString;

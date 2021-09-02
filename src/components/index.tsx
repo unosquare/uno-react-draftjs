@@ -1,9 +1,9 @@
 import React, { useState, useImperativeHandle, forwardRef, useRef } from 'react';
 import { Editor, RichUtils } from 'draft-js';
-import { _convertFromMark, _convertToMark } from '../utils';
 import { IconButton, Stack } from '@fluentui/react';
-import { RichTextEditorProps } from '../interfaces';
 import { useEffectWithDebounce } from 'uno-react';
+import { _convertFromMark, _convertToMark } from '../utils';
+import { RichTextEditorProps } from '../interfaces';
 import { buttonStyles, containerBaseStyles } from './styles';
 
 export type RichTextEditorRef = {
@@ -46,7 +46,7 @@ export const UnoReactDraftjs = forwardRef<RichTextEditorRef, RichTextEditorProps
         }, [editorState]);
         useEffectWithDebounce(updateMarkdownEffect, 200);
         useImperativeHandle(ref, () => ({
-            setText: setText,
+            setText,
         }));
 
         return (
